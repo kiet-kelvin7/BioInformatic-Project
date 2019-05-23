@@ -1,0 +1,314 @@
+>> Step 0: Obtaining Sequencing Data
+	> Procedure:
+	- Browse to https://www.ebi.ac.uk/ena/data/view/PRJEB26635
+	- Download .fastq.gz files under Submitted Files (FTP) column
+
+>> Step 1: Trimming
+	> Input: 
+	- Raw Seq Data of 10 samples (60-69).
+	(20 .fastq.gz files in total: forward/reverse)
+
+	> Procedure:
+	- Run the command:
+	java -jar /media/sf_470Proj/Tools/Trimmomatic-0.38/trimmomatic-0.38.jar PE -phred33 
+	input_path/sampleX_forward.fastq.gz 
+	input_path/sampleX_reverse.fastq.gz 
+	output_path/sampleX_forward_paired.fastq.gz 
+	output_path/sampleX_forward_unpaired.fastq.gz 
+	output_path/sampleX_reverse_paired.fastq.gz 
+	output_path/sampleX_reverse_unpaired.fastq.gz
+	LEADING:3 TRAILING:3 SLIDINGWINDOW:20:30 MINLEN:220
+
+	> Output:
+	- 20 trimmed-paired-demuxed .fastq.gz files (forward/reverse)	: Select
+	- 20 trimmed-unpaired-demuxed .fastq.gz files (forward/reverse)	: Discard
+	- TrimResults.xlsx (manually recorded)
+
+>> Step 2: Importing 
+	> Input:
+	- 20 trimmed-paired-demux .fastq.gz files (10 samples: forward/reverse)
+
+	> Procedure:
+	- Run the command:
+
+	# Import seq data with "Casava 1.8 paired-end demultiplexed fastq" format
+	qiime tools import 
+	--type 'SampleData[PairedEndSequencesWithQuality]' 
+	--input-path Casava-18-paired-end-demultiplexed
+ 	--input-format CasavaOneEightSingleLanePerSampleDirFmt
+	--output-path 10-demux-paired-end.qza
+	
+	# Demultiplexed summary
+	qiime demux summarize 
+	--i-data demux-paired-end.qza 
+	--o-visualization demux-paired-end.qzv
+
+	> Output:
+	- 10-demux-paired-end.qza
+	- 10-demux-paired-end.qzv
+
+>> Step 3: Denoising,PairJoining, and Filtering
+      3.1: demux-visualization 
+	> Input: 
+	- 10-demux-paired-end.qzv
+
+	> Procedure:
+	- Import the file to https://view.qiime2.org/
+
+	> Output: 
+	- 10-Demultiplexed-Summary.pdf 
+	(demultiplexed length sequence summary graphs)
+	- 10-forward-seven-number-summaries.csv
+	- 10-reverse-seven-number-summaries.csv
+	- 10-per-sample-number-summaries.csv  
+
+      3.2: dada2
+	> Input:
+	- 10-demux-paired-end.qza
+
+	> Procedure:
+	- Run the command:
+	qiime dada2 denoise-paired 
+	--i-demultiplexed-seqs 10-demux-paired-end.qza 
+	--p-trim-left-f 0 
+	--p-trim-left-r 0 
+	--p-trunc-len-f 0 
+	--p-trunc-len-r 235
+	--p-n-threads 4 
+	--o-representative-sequences 10-rep-seqs-dada2.qza 
+	--o-table 10-feature-table.qza 
+	--o-denoising-stats 10-denoise-stat.qza 
+
+	> Output:
+	- 10-rep-seqs-dada2.qza 
+	- 10-feature-table.qza
+	- 10-denoise-stat.qza 
+
+      3.3: summarize
+	> Input:
+	
+	- 10-feature-table.qza
+    
+	- 10-rep-seqs-dada2.qza
+
+
+
+	> Procedure:
+	
+	- Run the command (summarize feature table):
+	
+	qiime feature-table summarize 
+	
+	--i-table 10-feature-table.qza
+    
+	--o-visualization 10-feature-table.qzv
+
+    
+
+	- Run the command (summarize representative sequences):
+    
+	qiime feature-table tabulate-seqs
+    
+	--i-data 10-rep-seqs-dada2.qza
+    
+	--o-visualization 10-rep-seqs-dada2.qzv
+	
+	- Run the command (summarize denoise stat):
+    
+	qiime metadata tabulate
+    
+	--m-input-file 10-denoise-stats.qza    
+	--o-visualization 10-denoise-stats.qzv
+
+
+
+	> Output:
+	
+	- 10-rep-seqs-dada2.qzv
+	
+	- 10-feature-table.qzv	
+	- 10-denoise-stat.qzv
+
+
+>> Step 4: Taxonomy Assigning
+      4.1: Train 16S Classifier
+	> Input:
+	- silva_132_99_16S.fna
+	- taxonomy_7_levels.txt
+
+	> Procedure:
+	- Run the command (import silva_132_99_16S):
+	qiime tools import
+	--type 'FeatureData[Sequence]'
+	--input-path /media/sf_470Proj/.../SILVA-DB/silva_132_99_16S.fna
+	--output-path /media/sf_470Proj/.../QIIME2-Artifacts/99_otus.qza
+
+	- Run the command (import taxonomy_7_levels):
+	qiime tools import
+	--type 'FeatureData[Taxonomy]'
+	--input-format HeaderlessTSVTaxonomyFormat
+	--input-path /media/sf_470Proj/.../SILVA-DB/taxonomy_7_levels.txt
+	--output-path /media/sf_470Proj/.../QIIME2-Artifacts/99_taxonomy.qza
+
+	> Output:
+	- 99_otus.qza
+	- 99_taxonomy.qza
+
+      4.2: Extract and Train SILVA_16S_V4 Classifier
+	> Input:
+	- 99_otus.qza
+	- 99_taxonomy.qza
+
+	> Procedure:
+	- Run the command (extract reads):
+	qiime feature-classifier extract-reads 
+	--i-sequences /media/sf_470Proj/.../QIIME2-Artifacts/99_otus.qza 
+	--p-f-primer GTGCCAGCMGCCGCGGTAA 
+	--p-r-primer GGACTACHVHHHTWTCTAAT 
+	--o-reads /media/sf_470Proj/.../QIIME2-Artifacts/10-ref-seqs-v4.qza
+	
+	- Run the command (train SILVA_16S_V4):
+	qiime feature-classifier fit-classifier-naive-bayes
+	--i-reference-reads /media/sf_470Proj/.../QIIME2-Artifacts/ref-seqs-v4.qza
+	--i-reference-taxonomy /media/sf_470Proj/.../QIIME2-Artifacts/99_taxonomy.qza
+	--o-classifier /media/sf_470Proj/.../QIIME2-Artifacts/silva132_v4_classifier.qza
+	
+	> Output:
+	- silva132_v4_classifier.qza	
+
+      4.3: Classify sklearn
+	> Input:
+    
+	- silva-132-99-515-806-nb-classifier.qza 
+        
+		+ pre-trained classifier;
+        
+		+ download-site: https://docs.qiime2.org/2019.1/data-resources/
+    
+	- 10-rep-seqs-dada2.qza
+
+
+
+> Procedure:
+    
+	- Run the command:
+    
+	qiime feature-classifier classify-sklearn 
+    
+	--i-classifier silva-132-99-515-806-nb-classifier.qza 
+    
+	--i-reads 10-rep-seqs-dada2.qza 
+    
+	--o-classification 10-taxonomy.qza
+
+
+
+	> Output:
+    
+	- 10-taxonomy-qza
+
+
+      4.4: Visualization
+	> Input:
+	- 10-taxonomy.qza
+	- metadata.tsv
+	- 10-feature-table.qza
+
+	> Procedure:
+	- Run the command (obtain metadata.tsv file):
+	qiime metadata tabulate
+	--m-input-file 10-taxonomy.qza
+	--o-visualization 10-taxonomy.qzv
+
+	- Run the command (generate a barplot):
+	qiime taxa barplot
+	--i-table 10-feature-table.qza
+	--i-taxonomy 10-taxonomy.qza
+	--m-metadata-file metadata.tsv
+	--o-visualization 10-taxa-bar-plots.qzv
+
+	> Output:
+	- 10-taxanomy.qzv
+	- metadata.tsv
+	- 10-taxa-bar-plots.qzv
+
+>> Step 5: Generate Phylogenetic Tree
+      5.1: Create Phylogeny
+	> Input:
+    
+	- 10-rep-seqs-dada2.qza
+
+	- 10-aligned-rep-seqs.qza
+
+	- 10-masked-aligned-rep-seqs.qza
+
+	- 10-unrooted-tree.qza
+
+
+	
+> Procedure:
+    
+	- Run the command (align rep-seqs):
+
+	qiime alignment mafft 
+    
+	--i-sequences 10-rep-seqs-dada2.qza 
+    
+	--o-alignment 10-aligned-rep-seqs.qza
+
+    
+
+	- Run the command (mask aligned rep-seqs):
+    
+	qiime alignment mask 
+    
+	--i-alignment 10-aligned-rep-seqs.qza 
+    
+	--o-masked-alignment 10-masked-aligned-rep-seqs.qza
+
+    
+
+	- Run the command (create unrooted tree):
+    
+	qiime phylogeny fasttree 
+    
+	--i-alignment 10-masked-aligned-rep-seqs.qza 
+    
+	--o-tree 10-unrooted-tree.qza
+
+    
+
+	- Run the command (create rooted tree):
+    
+	qiime phylogeny midpoint-root 
+    
+	--i-tree unrooted-tree.qza 
+    
+	--o-rooted-tree rooted-tree.qza
+
+
+	
+> Output:
+    
+	- 10-rooted-tree.qza
+
+
+      5.2: Visualization
+	> Input:
+    
+	- 10-rooted-tree.qza
+    
+	- 10-taxonomy.qza
+
+
+	
+> Procedure:
+    
+	- Upload "10-rooted-tree.qza" on 
+ItoL (Interactive Tree Of Life)
+	- URL: https://itol.embl.de/
+	- Upload 
+"10-taxonomy.qza" into the rooted tree.
+
+	> Output:
+	- A complete Phylogenetic Tree 
