@@ -1,0 +1,1362 @@
+%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{doublecol-new}
+%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{natbib,stfloats}
+\usepackage{mathrsfs,amsmath,upgreek}
+\usepackage[pdftex]{graphicx}
+\usepackage{algorithmic}
+\usepackage{mathtools}
+
+\def\newblock{\hskip .11em plus .33em minus .07em}
+
+\newcommand{\be}{\begin{eqnarray}}
+\newcommand{\ee}{\end{eqnarray}}
+\newcommand{\nn}{\nonumber}
+
+\theoremstyle{TH}{
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{corrolary}[lemma]{Corrolary}
+\newtheorem{conjecture}[lemma]{Conjecture}
+\newtheorem{proposition}[lemma]{Proposition}
+\newtheorem{claim}[lemma]{Claim}
+\newtheorem{stheorem}[lemma]{Wrong Theorem}
+\newtheorem{algorithm}{Algorithm}
+}
+
+\theoremstyle{THrm}{
+\newtheorem{definition}{Definition}
+\newtheorem{question}{Question}
+\newtheorem{remark}{Remark}
+\newtheorem{scheme}{Scheme}
+}
+
+\theoremstyle{THhit}{
+\newtheorem{case}{Case}[section]
+}
+
+\makeatletter
+
+\def\Reals{\mathbb{R}}
+\def\Ints{\mathbb{Z}}
+\def\Nats{\mathbb{N}}
+
+\def\theequation{\arabic{equation}}
+
+\def\tc{\textcolor{red}}
+
+\def\BottomCatch{%
+\vskip -10pt
+\thispagestyle{empty}%
+\begin{table}[b]%
+\NINE\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcr@{}}%
+\\[-12pt]
+Copyright \copyright\ 2014 Inderscience Enterprises Ltd. & &%
+\end{tabular*}%
+\vskip -30pt%
+%%\vskip -35pt%
+\end{table}%
+%\def\tc{\textcolor}{red}
+} \makeatother
+
+%%%%%%%%%%%%%%%%%
+\begin{document}%
+%%%%%%%%%%%%%%%%%
+
+\thispagestyle{plain}
+
+\setcounter{page}{1}
+
+\LRH{A Permutation Based Simulated Annealing Algorithm
+to Predict Pseudoknotted RNA Secondary Structures}
+
+%\RRH{Tsang and Wiese}
+
+\VOL{x}
+
+\ISSUE{x}
+
+\PUBYEAR{2014}
+
+%\BottomCatch
+
+%\CLline
+
+%\subtitle{}
+
+\title{A Permutation Based Simulated Annealing Algorithm
+to Predict Pseudoknotted RNA Secondary Structures
+}
+
+%\authorA{Herbert H. Tsang*}
+%\affA{Trinity Western University, Langley, British Columbia, Canada*\\
+%*Corresponding author}
+
+%\authorB{Kay C. Wiese}
+%\affB{Simon Fraser University, Surrey, British Columbia, Canada}
+
+\begin{abstract}
+Pseudoknots are RNA tertiary structures which perform essential biological functions.
+This paper discusses {\em SARNA-Predict-pk},
+a RNA pseudoknotted secondary structure prediction algorithm based on Simulated Annealing (SA).
+The research presented here extends previous work of {\em SARNA-Predict} and further
+examines the effect of the new algorithm to include prediction of RNA secondary
+structure with pseudoknots.
+An evaluation of the performance of {\em SARNA-Predict-pk} in terms of prediction
+accuracy is made via comparison with several state-of-the-art prediction algorithms using  
+twenty individual known structures from seven RNA classes.
+We measured the sensitivity and specificity of nine prediction algorithms. Three of these are dynamic
+programming algorithms:  {\em Pseudoknot (pknotsRE)}, {\em NUPACK}, and {\em pknotsRG-mfe}. One
+is using the statistical clustering approach: {\em Sfold} and the other
+five are heuristic algorithms: {\em SARNA-Predict-pk}, {\em ILM}, {\em STAR}, {\em IPknot} and {\em HotKnots} algorithms.
+%An evaluation for the performance of {\em SARNA-Predict-pk} in terms of prediction accuracy was
+%verified with native structures. 
+%Experiments on twenty individual known structures
+%from six RNA classes (tRNA, viral RNA, anti-genomic HDV, telomerase RNA, tmRNA, and
+%RNaseP) were performed.
+The results presented in this paper demonstrate that {\em SARNA-Predict-pk} can out-perform other
+state-of-the-art algorithms in terms of prediction accuracy.
+%An evaluation for the performance of the algorithm in terms of prediction accuracy
+%was verified with native structures.
+%Experiments on twenty individual known structures from seven RNA classes
+%(tRNA, viralRNA, anti-genomic HDV, telomerase RNA, tmRNA, RNaseP, and rRNA)
+%were performed.
+%{\em SARNA-Predict-pk} shows results which surpass other seven algorithms in terms of
+%sensitivity and specificity.
+%Four of these algorithms are dynamic programming algorithms:
+%{\em mfold}, {\em pknotsRE}, {\em NUPACK}, and {\em pknotsRG-mfe}.
+%The other four are heuristic algorithms: {\em SARNA-Predict-pk}, {\em HotKnots},
+%{\em ILM}, and {\em STAR} algorithms.
+%The results also show heuristic algorithms dominate the prediction
+%of RNA secondary structure with
+%pseudoknots for both long and short sequences in comparison to
+%dynamic programming algorithms.
+%These algorithms are from three different classes: heuristic, dynamic programming,
+%and statistical sampling techniques.
+This supports the use of the proposed method on pseudoknotted
+RNA secondary structure prediction of other known structures.
+
+
+\end{abstract}
+
+\KEYWORD{RNA secondary structure prediction, pseudoknot, RNA folding, Ribonucleic Acid, permutation, simulated annealing}
+
+\REF{to this paper should be made as follows: xxxx (xxxx) `xxxx',
+{\it xxxx}, Vol.~x, No.~x, pp.xxx--xxx.}
+
+%\begin{bio}
+%\tc{AUTHOR PLEASE SUPPLY CAREER HISTORY OF NO MORE THAN 100 WORDS FOR EACH AUTHOR.}
+%Herbert H. Tsang is an Associate Professor of Computing Science and Mathematics at Trinity Western University, Langley, BC, and an Adjunct Professor at Simon Fraser University, Burnaby, BC. His research areas include bioinformatics, computational modeling, signal processing, and scientific visualization. Tsang is a Senior Member of IEEE and a Professional Engineer in the province of British Columbia. He was a member of the scientific and engineering staff at MacDonald Dettwiler and Associates Ltd.
+%Kay C. Wiese is currently an Associate Professor in the School ofComputing Science at Simon Fraser University, BC, Canada, and he is the Director of the Bioinformatics Research Lab. His research interests are in computational intelligence and bioinformatics.
+%, particularly algorithms for RNA secondary structure prediction and visualization.
+%Dr. Wiese has been a member of the organizing committee of the IEEE Symposiumon Computational Intelligence in Bioinformatics and Computational Biology since 2005 in the roles of Publicity Co-Chair (2005-06), Technical Co-Chair (2007-08) and Program Chair (2009, 2014). Dr. Wiese served as Chair of the IEEE Computational Intelligence Society's Bioinformatics and Bioengineering Technical Committee for 2006-2007and as Vice President for Technical Activities of the IEEE Computational Intelligence Society for 2008-2009.
+%\end{bio}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{sec-introduction}
+While many biological
+structures are pseudoknot free, research has shown that pseudoknots
+are important for the function of several RNA molecules in the
+cell~\cite{staple-butcher-05, DBLP:journals/nar/BatenburgGP01}, and
+viral RNA~\cite{deiman-pleij-97}.
+Our understanding of the importance of Ribonucleic Acid (RNA) continues
+to expand at a rapid pace. %~\cite{simons1997}.
+Over the past decade, it has become evident that RNA not only plays a central role
+within living cells, but it also performs a variety of tasks in many different
+biological contexts. It is evident that RNA is not merely a passive messenger
+of information and scaffold for proteins, but it also has a central and active
+role in the functioning of the cell~\cite{NissenPoul2000}.
+
+The functions of RNA molecules are determined largely by their
+three-dimensional structure. X-ray diffraction and Nuclear Magnetic Resonance
+(NMR) data, which can deduce the functional 3D form of a long RNA strand,
+are means which are often too costly to be employed.
+The RNA sequence is readily
+and cost effectively available, but provides no further information regarding its functional form.
+In general, computational approaches to RNA structure prediction focus more on secondary structure. 
+RNA structure is hierarchical and the secondary structure contacts
+are generally stronger and form faster than the tertiary structure~\cite{tinoco_1999}~\cite{mathews_2006}.
+Also, evidence of the dominance of RNA secondary structures can be found in
+nature, as secondary structure elements are conserved in evolution~\cite{gr96analysis}.
+Therefore, RNA secondary structures can be predicted independently of tertiary structure 
+and computational biologist focus more on secondary structure.
+
+Computational methods for the prediction of RNA secondary structure from the base sequence
+can help shed light on the three-dimensional structure and functions of these
+molecules. More fundamentally, experience with such computer algorithms can also help
+us understand the physical principles that determine how RNA molecules
+fold~\cite{tinoco_1999}.
+The most popular algorithm at present is Zuker's algorithm which can be used
+in {\em mfold} to determine the minimum free energy secondary structure~\cite{zuker_2003}.
+
+This paper presents results in extending the algorithm {\em SARNA-Predict} to
+include prediction of pseudoknotted structures. The new algorithm is
+called {\em SARNA-Predict-pk}.
+In previous work, we have presented {\em SARNA-Predict}, a permutation-based algorithm for RNA secondary structure
+prediction based on SA with a simple thermodynamic model and studied mainly it's
+convergence behavior~\cite{tsang_2006}. A subsequent study examined the effect of adaptive and geometric
+annealing schedules~\cite{tsang_2007}. Recent published results provided evidence
+in the significance of thermodynamic models in the accuracy improvement with {\em efn2} over the INN-HB
+thermodynamic models~\cite{tsang_2007_cec}~\cite{tsang_tcbb_2010}.
+A preliminary study in employing {\em SARNA-Predict-pk} to predict pseudoknotted RNA secondary structures
+was reported on a limited dataset~\cite{tsang_cibcb_2008}. 
+As demonstrated in this paper, employing a larger dataset and comparing to more algorithms, the performance of {\em SARNA-Predict-pk} in
+%terms of Sensitivity, Specificity and F-measure
+terms of Sensitivity and Specificity
+surpasses other Heuristic and Dynamic
+programming algorithms in several instances.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{RNA Secondary Structural Elements}
+
+The primary structure of RNA is an oriented linear sequence of
+four nucleotides, denoted as G, C, A and U (Guanine, Cytosine, Adenine, and Uracil).
+RNA is generally a single stranded sequence and this strand can fold back onto itself.
+Intra-molecular {\em base pairs} can form between different nucleotides, when this
+folding occurs.
+%folding the sequence onto itself.
+The pairs AU and GC are called the Watson-Crick base pairs which are most commonly
+found in RNAs. However, non-Watson-Crick base pairing can also occur. The
+common ones are the sheared GA, GA imino, AU reverse Hoogsteen, and the GU and AC
+wobble pairs~\cite{LeontisW2001}~\cite{NagaswamyLHCZF2002}.
+Among these non-Watson-Crick base pairs, the GU wobble pair is the most common.
+In summary, the most stable and common of these base pairs
+are GC, AU, and GU, and their mirrors, CG, UA, and UG. These pairs are
+called {\em canonical base pairs}.
+
+The secondary structure of an RNA molecule is a simplification of a complex three dimensional
+structure.  The secondary structure refers to the structure elements which include
+the above base pairings.
+Formally, given a single stranded RNA sequence of length $L$,
+%\begin{equation}
+$   x = (x_1, x_2,...,x_L),$
+%\end{equation}
+%\noindent
+with $x_i \in  \{A,C,G,U\}$ for all $i$,
+a {\em secondary structure} for $x$ is a set $P$ of ordered {\em base pairs},
+written as $(i,j)$, with $1 \le i <  j \le L$, satisfying the following constraints:
+\begin{enumerate}
+  \item $j-i > 3$ and
+        % (The biochemical justification
+        %for this restriction is that the minimal hairpin loop size is empirically known to be
+        %greater than 3.), and
+  %the bases are not too close to each other, and
+  \item $\{i,j\} \cap \{i',j'\} = \O $, i.e. the base pairs do not conflict with each other. % cannot share bases 
+ Here, $i$ and $j$ refer to a nucleotide (nucleotide in RNA sequences or partial sequences are always numbered). 
+\end{enumerate}
+There are several structural elements formed depending on which
+base pairs form bonds.
+Figure~\ref{fig:B.subtillis} illustrates examples of these secondary structure elements~\cite{brown_1997}
+of \textit{Bacillus subtilis} (M13175) RNase P RNA.
+Some common structural elements include the following:
+\begin{itemize}
+  \item {\em hairpin loop} is a group of nucleotides not canonically paired and closed by
+    a single canonical base pair. Formally, in a given secondary structure, the tuple $(i,j)$
+    defines a hairpin loop, if $i$ and $j$ are paired, and $k$ is a free base, $\forall k$,
+    $i < k < j$.
+\item {\em stacked loop}, also called {\em stacked pair},  contains two consecutive
+    base pairs. Formally, a tuple $(i,j)$ defines a stacked pair if $i$ and $j$ are
+    paired and $i+1$ and $j-1$ are also paired. A {\em stem} or {\em helix} is made of
+    a consecutive number of stacked loops.
+\item {\em internal loop} is a loop that separates two base pairs by having unpaired or non-canonically paired
+    nucleotides on both strands. % which contain two base pairs,
+    Formally, the tuple $(i,j,i',j')$, with $i+1 < i' < j' < j-1$ defines an internal loop
+    if $i$ and $j$ are paired, $i'$ and $j'$ are paired and $k$ is a free base,
+    $\forall k$, $i < k < i'$ and $j' < k < j$.
+\item {\em bulge loops} are interrupted helices by having unpaired nucleotides in one strand.
+    One can consider bulge loop as a special case of internal loop, where it has no
+    free base on one side, but has at least one free base on the other side.
+% which contain 2 base pairs with 1 base from
+%each of its pairs adjacent in the backbone of the molecule.
+\item {\em multi-branched loop} is a loop which contains three or more base pairs.
+    Formally, $(i,j,i_1,j_1,...,i_m,j_m)$, with $m \ge 2$,
+    $i < i_1 < j_1 < ... < i_m <  j_m < j$ defines a multi-loop with
+    $m + 1$ branches if $i$ pairs with $j$, $i_1$ pairs with $j_1 ...,i_m$ pairs with $j_m$
+    and $k$ is a free base, $\forall k$, $i < k < i_1$, $j_1 < k < i_2$ , ... , $j_m < k < j$.
+\item {\em external bases} which are not contained in any loop.
+\item {\em pseudoknots} are formed when two stem-loop  structures join together, where
+    the first stem's loop forms part of the second stem.
+    Formally, a simple pseudoknot is defined as two pairs of bases, $(i,j)$ and
+    $(i',j')$ such that $i<i'<j<j'$.
+    Figure~\ref{fig:pseudoknots_mathematical} illustrates this mathematical definition.
+ %(more information on pseudoknot
+%in Section~\ref{subsection:pseudoknots}).
+\end{itemize}
+All these elements have been used before with these names and definitions in the
+literature~\cite{MathewsSZT99}~\cite{zuker_1999}~\cite{mathews_2006_RNAWorld}~\cite{Andronescu_2003}.
+%Figure~\ref{fig:B.subtillis} illustrates examples of these secondary structure elements~\cite{brown_1997}
+%of \textit{Bacillus subtilis} (M13175) RNase P RNA.
+%\begin{figure}[htbp]
+\begin{figure}[h]
+  \begin{center}
+  %\includegraphics[scale=0.5]{./plot/B_subtillis_LR.png}
+  \includegraphics[scale=0.33]{./plot/B_subtillis.pdf}
+  \caption{The secondary structure elements of \textit{Bacillus subtilis} (M13175) RNase P RNA. This
+            image was created using jViz.Rna~\cite{wiese_2006_jViz}.}
+  \label{fig:B.subtillis}
+  \end{center}
+\end{figure}
+
+  %\begin{figure}[htbp]
+  \begin{figure}[h]
+    \begin{center}
+      %\includegraphics[scale=0.7]{files/pseudoknot_mathematical.eps}
+      \includegraphics[scale=0.55]{./plot/pseudoknots.pdf}
+      \caption{A graphical illustration of a simple pseudoknot.}
+      \label{fig:pseudoknots_mathematical}
+    \end{center}
+  \end{figure}
+
+Also, Figure~\ref{fig:TYMV} illustrates an example for a pseudoknotted RNA secondary structure
+of the turnip yellow mosaic virus (Genbank: M58309). There are two stem-loop motifs in which
+the first stem loop forms part of the second stem.
+
+\begin{figure*}
+  \begin{center}
+    \begin{tabular}{cc}
+        \includegraphics[scale=0.6]{./plot/TYMV.png} &
+        \includegraphics[scale=0.6]{./plot/TYMV_circle.png} \\
+      (a) & (b)  \\
+    \end{tabular}
+  \end{center}
+     \caption{The tRNA-like molecule from the turnip yellow mosaic virus (Genbank: M58309) shown in                (a) a circular Feynman diagram and (b) a secondary structure representation.}
+  \label{fig:TYMV}
+\end{figure*}
+
+
+
+RNA tertiary structure is three-dimensional in shape and forms from interactions between
+secondary structure elements (e.g. helices, unpaired regions). Tertiary structures
+are  much more difficult to model because the motifs that stabilize RNA three-dimensional
+folds are relatively small and often involve backbone functional groups, making
+them difficult or impossible to detect even within large families of
+secondary structures~\cite{doudna_2000}.
+As a result, secondary structure is usually considered a sufficient approximation.
+
+\section{Pseudoknot Prediction Algorithms}
+There has been a lot of research aimed at predicting 
+pseudoknot-free secondary structures. While many biological
+structures are pseudoknot free, research has shown that pseudoknots
+are important for the function of several RNA molecules in the
+cell~\cite{staple-butcher-05, DBLP:journals/nar/BatenburgGP01} and
+viral RNA~\cite{deiman-pleij-97}.
+Several important biological processes rely on RNA molecules that form pseudoknots.
+For example, the RNA component of human telomerase contains a pseudoknot that is conserved
+in all vertebrates and is essential for telomerase activity~\cite{Jiunn-LiangChen06072005}.
+Because of computational
+complexity, standard folding algorithms disregard pseudoknots and
+this became one of the major limitations of the existing algorithms.
+%  since pseudoknots are important structure features.
+
+Most RNA secondary structure prediction algorithms seek to minimize Gibbs free energy ($\Delta{G}$). 
+This energy is computed depending on the thermodynamic model employed (for example efn2 or HotKnots). 
+The real native (biological) structure tends to be found within about $5\%$ of the minimum free energy (min $\Delta{G}$) structure which is often referred to as the  minimum free energy (MFE) structure~\cite{rivas_2013}. 
+
+The general problem of predicting RNA secondary structures including
+pseudoknots has been proven to be computationally intractable
+(NP-complete) for a specific thermodynamic
+model~\cite{lyngs00pseudoknots}~\cite{lyngso-pedersen-00}.
+Therefore, most of the algorithms that are based on finding the MFE
+structures for a given input RNA molecule can handle only a
+restricted class of structures. Furthermore, in contrast with
+pseudoknot-free secondary structures, there is still no widely
+agreed upon standard model for estimating the energy of
+pseudoknotted structures, mainly due to the limited amount of experimental data.
+
+\subsection{Dynamic Programming Approaches}
+Several researchers have developed dynamic programming algorithms
+that find the minimum free energy structure from a restricted class
+that include certain pseudoknotted
+structures~\cite{rivas99dynamic}~\cite{uemura_1999}~\cite{akutsu_2000}~\cite{lyngs00pseudoknots}~\cite{dirks_2003}.
+%~\cite{witwer_2004}
+Among these algorithms, {\em pknotsRE} was developed by Rivas and Eddy, which can handle
+the largest class of pseudoknotted structures.
+Rivas and Eddy~\cite{rivas99dynamic}  proposed a free energy minimization dynamic
+programming algorithm which includes pseudoknots.
+Also, Rivas and Eddy provide a complete model, along with parameters, for calculating the
+free energy of pseudo-knotted secondary structures.
+This was considered to be the first algorithm to
+determine the MFE structure over a large class of pseudoknots. However, the algorithm
+is complex and its worst
+case complexity is $O(n^6)$ for time and $O(n^4)$ for space,  making it infeasible to
+run on large molecules. The high cost of running this algorithm restricts its use to
+a maximum sequence length of around 150 nucleotides.
+Furthermore,  {\em pknotsRE}
+only outputs the MFE structure and does not provide a list of low-energy suboptimal structures.
+
+Another algorithm using the dynamic programming approach was developed
+by Reeder and Giegerich,  the {\em pknotsRG-mfe}
+algorithm~\cite{reeder_2004}. Extending the work by Rivas and Eddy,
+{\em pknotsRG-mfe} is an augmented version of {\em pknotsRE}. 
+{\em pknotsRG-mfe}
+%where the algorithm with addition of
+implements the ``canonization rules" that further restrict the
+class of pseudoknots handled.  This approach not only provides
+suboptimal structures, it has reduced the running time to $O(n^4)$
+and space complexity  $O(n^2)$. This results in the ability to predict
+structures of sequences with several hundred nucleotides.
+%There are some recent advances in the dynamic programming algorithms for
+%prediction of pseudoknotted structures, where it can now
+%provide base-pairing probabilities (Dirks and Pierce 2003).
+%provide suboptimal structures
+
+Developed by Dirks and Pierce, {\em NUPACK}~\cite{dirks_2003} is an
+algorithm which transforms the partition function algorithm to
+compute a series of recursion probabilities. These  probabilities
+can be used to calculate base-pairing probabilities with or without
+pseudoknots. {\em NUPACK} has time complexity $O(n^5)$ and space
+complexity $O(n^4)$.
+
+\subsection{Statistical Clustering Approaches}
+Ensemble-based approaches to RNA secondary structure prediction have become increasingly
+popular.
+%Ding and Lawrence introduced a dynamic programming algorithm {\em Sfold} which efficiently
+%samples suboptimal secondary structures from the complete Boltzmann ensemble of RNA
+%secondary structures~\cite{ding_2004}~\cite{chan_2005}.
+%Recently, researchers have tried to use an ensemble-based approach for the
+%RNA secondary structure prediction problem. 
+{\em Sfold} predicts sub-optimal
+structures and by employing a partition function, the secondary structure solution
+space is sampled based on the Boltzmann probability distribution with a
+stochastic dynamic programming algorithm~\cite{ding_2005}~\cite{ding_2003}~\cite{ding_2005b}~\cite{Aghaeepour_2013}.
+In the set of sampled structures,
+the probability of any given base pair is the frequency of its occurrence
+in the ensemble of structures. This statistical sampling technique can
+be used to produce a centroid structure which represents the whole solution
+space ensemble. However, the major drawback of this approach is its basis of
+characterization, which is based on base pairs or region and not the
+entire structure. Also, since this type of algorithm based on Turner
+thermodynamic parameters and dynamic programming (DP), pseudoknotted structures are not included
+in the prediction.
+
+\subsection{Heuristic Approaches}
+In comparison with the previously discussed approaches based on
+dynamic programming, heuristic approaches provide no guarantee of
+finding the MFE structure. However, heuristic approaches can be
+faster and have the ability to handle long RNA sequences. In
+addition, they are inherently much less restrictive than  dynamic
+programming algorithms with respect to the complexity of the
+underlying energy model. Furthermore, heuristic algorithms are not
+limited to sampling from a restricted subclass of secondary
+structures, a feature that becomes more important for longer
+molecules.
+
+%prediction of pseudoknotted structures.
+%% and they went on and described results on a computer simulation of RNA folding pathways
+%Their research focuses on employing a genetic algorithm for
+%structure prediction based on computer simulation of RNA folding
+%pathways~\cite{gultyaev_1995}. Their {\em STAR} algorithm maintains
+%a list of stems. The stems can be added based on the free energy of
+%the stem as well as on the free energy of the loop that is formed
+%when the stem is added. Additional mechanism for removal of stems
+%during crossover mechanism were included. They reported results of
+%10 RNA sequences where the percentage of correctly predicted base
+%pairs ranged from $62\%$ to $87\%$.
+
+%{\em Iterative Loop Matching} (ILM)~\cite{ruan_2004} first uses a
+%dynamic programming algorithm for prediction of pseudoknot-free
+%secondary structures to identify a promising helix and the helix can
+%contain bulges or internal loops. The helix is being added to the
+%structure, then removes the bases forming this helix from the
+%sequence, and iterates to find additional helices.
+
+{\em HotKnots}~\cite{ren_2005} builds up candidate secondary
+structures by adding substructures one at a time to partially formed
+structures. It maintains multiple partially formed structures, and
+for each partially formed structure, several different additions of
+a single substructure are considered, resulting in a tree of
+candidate structures. The criteria for determining which
+substructures to add to partially formed structures at successive
+levels of the tree is also new, relative to previous algorithms:
+energetically favorable substructures called ``hot-spots" are found
+by a call to Zuker's algorithm, with the constraint that no base
+already paired may be in the structure. The algorithm uses a
+standard free energy model~\cite{serra_1995}~\cite{MathewsSZT99},
+extended to account for pseudoknots~\cite{dirks_2003},
+to determine which structures at nodes of the tree have the lowest free energies. %, and outputs these.
+This energy model is also employed to determine how to prune the tree of partial structures,
+so that more alternatives are explored from the most promising (i.e., lowest-energy) partial structures.
+Recently, a new algorithm {\em Iterative HFold} was reported to  leverages strengths of earlier methods and 
+employ the energy parameters of HotKnots V2.0. It reported to be  
+much faster than HotKnots V2.0, while having comparable accuracy~\cite{Jabbari_2014}. 
+% http://www.rnajournal.org/cgi/content/full/11/10/1494
+
+
+%{\em SARNA-Predict} is capable of predicting  structures with pseudoknots
+%when an appropriate thermodynamic model is employed. In this paper,
+%we will present {\em SARNA-Predict-pk} where a new thermodynamic
+%model~\cite{ren_2005}~\cite{DBLP:conf/wabi/RastegariC05}
+%was incorporated and results of pseudoknot RNA secondary structures prediction will be presented.
+
+In addition, there are some other recent approaches which use a similar heuristic approach in
+building pseudoknotted structures using multiple iterations of the algorithm:
+{\em KnotSeeker} and its improved version {\em DotKnot} extracts stem regions from the secondary 
+structure probability dot plot and combine pseudoknot candidates from these regions to form the 
+	structures~\cite{sperschneider2008kno}~\cite{sperschneider2010dot}~\cite{sperschneider2011heu}. 
+%This algorithm has been shown to be effective for long sequences.
+{\em HPknotter} was a pseudoknots detection tool based on structural matching and dynamic programming kernels, however
+	it is limited only to the prediction of H-type pseudoknots~\cite{Huang_2005}.
+{\em PLM\_DPSS} is based on calculating the optimally lowest stacking energy between two partner 
+sequences using the local motifs derived from Pseudobase entries.
+It can predict a limited class of pseudoknots with high sensitivity~\cite{Huang_2007}.
+{\em FlexStem} is based on minimizing the free energy in a local area and also taken the folding 
+kinetics into account as well~\cite{Chen_2008}.
+{\em HFold} operates under the assumption that RNA structures fold hierarchically where pseudoknot 
+free pairs are formed initially and then pseudoknotted structures formed later~\cite{jabbari_2007}.
+{\em ProbKnot} also assembles a pseudoknotted structure through calculating the base-pairing 
+probabilities of structures without pseudoknots~\cite{bellaousov_probknot_2010}.
+{\em GAknot} is another algorithm that can predict structure with pseudoknots using genetic algorithm~\cite{tong_2013}~\cite{tong_bibe_2013}. 
+
+A more recently developed algorithm, {\em IPknot}~\cite{sato_2011} achieves better prediction 
+accuracy and faster running time as compared with several competitive prediction 
+methods ({\em ProbKnot}~\cite{bellaousov_probknot_2010}, 
+{\em HotKnots}~\cite{ren_2005}, {\em FlexStem}~\cite{Chen_2008},
+{\em pknotsRG}~\cite{reeder_2004}, {\em ILM}~\cite{ruan_2004}, and {\em CentroidFold}~\cite{sato_2009}).
+{\em IPknot} predicts RNA secondary structures with pseudoknots based on maximizing
+expected accuracy of a predicted structure.
+By approximates a base-pairing probability distribution that
+considers pseudoknots, this algorithm
+combining a set of pseudoknot-free substructures to form
+a pseudoknotted structure.
+
+
+\medskip
+%In the following sections, we will introduce the algorithm and report the results of {\em SARNA-Predict-pk}.
+%Also, comparing {\em SARNA-Predict-pk} with other RNA secondary structure folding algorithms:
+%%{\em RnaPredict} and {\em P-RnaPredict}~\cite{alainthesis, Wiese02102006},
+%%{\em mfold}~\cite{zuker1981}~\cite{zuker94prediction}~\cite{Zuker_2003},
+%{\em HotKnots}~\cite{ren_2005},
+%%{\em ILM}~\cite{ruan_2004},
+%{\em pknotsRE}~\cite{rivas99dynamic},
+%%{\em STAR}~\cite{gultyaev_1995},
+%{\em pknotsRG-mfe}~\cite{reeder_2004} and {\em
+%NUPACK}~\cite{dirks_2003}.
+%%{\em SARNA-Predict-pk} is a modified
+%%version of {\em SARNA-Predict} where it is capable to predict RNA
+%%secondary structures with pseudoknots. The basic algorithm for {\em
+%%SARNA-Predict-pk} is identical to {\em SARNA-Predict} with the
+%%exception of the thermodynamic model. {\em SARNA-Predict-pk} employs
+%%the thermodynamic model that was described by Rastegari and
+%%Condon~\cite{DBLP:conf/wabi/RastegariC05} and implemented in the
+%%{\em HotKnots} software~\cite{ren_2005}.
+%
+In the following sections, we will introduce the algorithm and report the results 
+of {\em SARNA-Predict-pk}.
+We will compare 
+%Also, comparing 
+{\em SARNA-Predict-pk} to other  RNA secondary structure folding algorithms:
+%{\em RnaPredict} and {\em P-RnaPredict}~\cite{alainthesis, Wiese02102006},
+%{\em mfold}~\cite{zuker1981}~\cite{zuker94prediction}~\cite{Zuker_2003},
+{\em HotKnots}~\cite{ren_2005}, {\em ILM}~\cite{ruan_2004}, 
+{\em pknotsRE}~\cite{rivas99dynamic}, {\em STAR}~\cite{gultyaev_1995},
+{\em Sfold}~\cite{chan_2005},
+{\em pknotsRG-mfe}~\cite{reeder_2004}, {\em NUPACK}~\cite{dirks_2003} and 
+{\em IPknot}~\cite{sato_2011}.
+%{\em SARNA-Predict-pk} is a modified
+%version of {\em SARNA-Predict} where it is capable to predict RNA
+%secondary structures with pseudoknots. The basic algorithm for {\em
+%SARNA-Predict-pk} is identical to {\em SARNA-Predict} with the
+%exception of the thermodynamic model. {\em SARNA-Predict-pk} employs
+%the thermodynamic model that was described by Rastegari and
+%Condon~\cite{DBLP:conf/wabi/RastegariC05} and implemented in the
+%{\em HotKnots} software~\cite{ren_2005}.
+
+The current paper has the following objectives:
+\begin{itemize}
+\item To demonstrate the usefulness of the permutation-based SA algorithm for RNA secondary
+   structure prediction based on free energy minimization techniques over a range of
+   RNA structures. These include 20 individual known structures over seven RNA classes
+   (tRNA, viralRNA, anti-genomic HDV, telomerase RNA, tmRNA, RNaseP, and rRNA).
+
+\item To incorporate a thermodynamic model ({\em Hotknots}) into {\em SARNA-Predict-pk} which
+   enable the algorithm to predict pseudoknotted structures.
+   This shows one of the greatest strength of {\em SARNA-Predict} in its
+   capabilities in incorporating different thermodynamic models during the optimization.
+
+\item To measure the accuracy of structure prediction of {\em SARNA-Predict-pk} against the accuracy of
+   structures predicted by using several state-of-the-art prediction algorithms.
+   Three of these are dynamic programming algorithms: {\em Pseudoknot (pknotsRE)}, {\em NUPACK},
+   and {\em pknotsRG-mfe}. 
+   One is using the statistical clustering approach: {\em Sfold} and the other
+%   six are heuristic algorithms: {\em P-RnaPredict},
+five are heuristic algorithms: 
+   {\em SARNA-Predict}, {\em HotKnots}, {\em ILM}, {\em STAR} and {\em IPknot} algorithms.
+\end{itemize}
+
+
+
+\section{Method: SARNA-Predict-pk}
+%Simulated Annealing (SA) was originally motivated by the physical annealing
+%process~\cite{metropolis1953}, it mimics the process of material being heated
+%and then slowly cooled into a uniform structure.  Thirty years later, Kirkpatrick et
+%al.~\cite{kirkpatrick83optimization} were the first to apply SA to optimization problems.
+%This algorithm was applied to many minimization problems.
+%As an iterative search optimization algorithm, it is based
+%on successive update steps (either random or deterministic) where the update
+%step length is proportional to an arbitrarily set parameter which can play the
+%role of a temperature. In an analogy with the annealing process of metals, the
+%temperature is made high in the early stages of the process for faster minimization
+%or learning, then is reduced for greater stability.
+%In this way the algorithm evolves a solution by successive mutations of the
+%current solution candidates.
+
+{\em SARNA-Predict} is a novel algorithm for RNA secondary structure prediction based on SA.
+SA is known to be effective in solving many different types of minimization problems and
+for finding the global minimum in the solution space. Based on free energy minimization
+techniques, {\em SARNA-Predict} heuristically searches for the structure with a free energy
+close to the minimum free energy $\Delta G$ for a strand of RNA, within given constraints.
+Previous research has shown that
+{\em SARNA-Predict}~\cite{tsang_2006}~\cite{tsang_2007}~\cite{tsang_2007_cec}
+can out-perform other state-of-the-art algorithms in terms of prediction accuracy of
+pseudoknot-free RNA secondary structure.
+{\em SARNA-Predict-pk} is an extended version of {\em SARNA-Predict}
+which predicts RNA secondary structures with pseudoknots.
+%{\em SARNA-Predict}, a SA based algorithm
+%for RNA secondary structure prediction is shown in Figure~\ref{fig:sa}.
+The pseudo-code of the {\em SARNA-Predict-pk} is shown in Figure~\ref{fig:sa}.
+\begin{figure}[htbp]
+\framebox[3.5in][c]{
+\begin{minipage}{\columnwidth}
+\begin{algorithmic}[1]
+   \STATE  Structure = InitialStructure;
+   \STATE  FreeEnergy = Evaluate(Structure);
+   \STATE  Temperature = InitialTemperature;
+
+   \WHILE  {(Temperature $>$ FinalTemperature)}
+      \FOR   {($i=1$ to NumberOfIterations)}
+         \STATE      NewStructure = Mutate(Structure);
+         \STATE      NewFreeEnergy = Evaluate(NewStructure);
+         %\STATE      DeltaEnergy = NewFreeEnergy - FreeEnergy;
+         \STATE      $\Delta$ Energy = NewFreeEnergy - FreeEnergy;
+         \IF  {($\Delta$ Energy $\leq$ 0) OR (with
+                %probability exp(-DeltaEnergy/Temperature))}
+                %Probability[Accept] = $e^{\frac{-(E_{new} - E_{old})}{Temperature}}$
+                Probability[Accept] =
+                 $e^{\frac{-\Delta Energy}{Temperature}}$)}
+            \STATE        FreeEnergy = NewFreeEnergy;
+            \STATE        Structure = NewStructure;
+         \ENDIF
+      \ENDFOR
+      \STATE  decrease Temperature;
+   \ENDWHILE
+\end{algorithmic}
+\end{minipage}
+}
+\caption{Structure of the simulated annealing algorithm in RNA secondary structure prediction}
+\label{fig:sa}
+\end{figure}
+
+The operational details of {\em SARNA-Predict} were described in previous
+publications~\cite{tsang_2006}~\cite{tsang_2007}~\cite{tsang_2007_cec}.
+The {\em Evaluate} function is used to calculate the thermodynamic energy of
+a particular secondary structure. {\em SARNA-Predict} can accommodate
+different thermodynamic energy models.
+We have included the Individual Nearest Neighbor with Hydrogen Bonds (INN-HB) Model~\cite{Deschenes_2004}~\cite{XiaSBKSJCT98} and the {\em efn2} model~\cite{zuker_2003}~\cite{Matthews_1999}. In this paper, we have extended {\em SARNA-Predict} to include the HotKnots model as well~\cite{DBLP:conf/wabi/RastegariC05}. Section~\ref{subsubsection:HotKnots}  contain more details.
+
+The main goal of the {\em Mutate} function is
+to alter the structures in
+a controlled and intuitive fashion. It randomly chooses control points and moves
+them by a random amount to alter the coding for the structure.
+%{\em SARNA-Predict-pk} is a modified
+%version of {\em SARNA-Predict} where it is capable to predict RNA
+%secondary structures with pseudoknots.
+%The basic algorithm for
+We have implemented a novel combination of permutation-based encoding
+and {\em swap mutation} as our mutation function~\cite{Eiben_2003}.
+{\em SARNA-Predict} encodes the RNA structures with integer permutations ($p$) and
+each integer corresponds to a candidate helix ($H_i$).
+In this model, a base pair is formed with 
+three constraints: 1) it considers
+stacked pairs, or helices, to form only when three or more adjacent
+pairs form. 2) the loop connecting the stacked pair must be at
+least three nucleotides in length. 3) each helix must not share bases with another. 
+By using these rules, it is possible to enumerate all the
+potential helices that can form in a structure. The challenge is in
+predicting which ones will actually form in the native structure.
+
+In swap mutation, two random points are selected and the two digits at these
+positions are interchanged. For a permutation vector,
+$p = \langle H_1,...H_i...H_j...H_n\rangle $
+%, where $n$ is the total number of possible
+%permutations. A swap mutation is defined as
+a swap mutation is defined as
+\begin{equation}
+%\begin{split}
+\begin{multlined}
+%p_{old} & = \langle X_1,...X_i...X_j...X_n\rangle \rightarrow \\
+%p_{new} &= \langle X_1,...X_j...X_i...X_n\rangle
+%\end{split}
+p_{old} = \langle H_1,...H_i...H_j...H_n\rangle \rightarrow  \\
+p_{new} = \langle H_1,...H_j...H_i...H_n\rangle
+%\end{split}
+\end{multlined}
+\end{equation}
+\noindent where $i$ and $j$ $\in [1,n]$ are randomly chosen positions.
+If the set of all helices, $H$,
+contains $n$ helices, then use a permutation vector of length $n$ to represent a candidate solution.
+The order in which a helix appears in the permutation vector is the order in which it is picked by the
+decoder to be inserted into the final structure. Helices that are incompatible with any
+previously selected helices are rejected.
+
+{\em SARNA-Predict-pk} is an extension of {\em SARNA-Predict} incorporating
+a new thermodynamic model to enable the prediction of pseudoknots.
+%\textit{SARNA-Predict} is designed to accommodate incorporation of different thermodynamic models
+%with relative ease and to incorporate prediction of RNA with pseudoknots during the free energy evaluation.
+%This is a slight advantage over {\em mfold}, which can only predict pseudoknots-free
+%structures and cannot be readily extended to use other thermodynamic models.
+{\em SARNA-Predict-pk} employs
+the thermodynamic model that was described by Rastegari and
+Condon~\cite{DBLP:conf/wabi/RastegariC05} and implemented in the
+{\em HotKnots} software~\cite{ren_2005}.
+
+%Similar to {\em SARNA-Predict}, {\em SARNA-Predict-pk} also uses a permutation-based coding for the
+%RNA secondary structure, {\em percentage swap mutation} operator for the pertubation function,  and
+%geometric scheduler as the annealing schedule. In contrast,  {\em SARNA-Predict-pk}
+%incoporates the {\em HotKnots} thermodynamic model as it's cost evaluation function.
+%The main purpose of a cost function is to evaluate the appropriateness of the current
+%structure.  For the minimization problem, if the new cost is less than the current cost,
+%then the new structure should be kept since the new structure is closer to the
+%goal than the current structure.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%{\em HotKnots' Thermodynamic Model:}
+\subsection{HotKnots' Thermodynamic Model}
+\label{subsubsection:HotKnots} The first dynamic programming
+algorithm to determine the MFE structure over a large class of
+pseudoknots was by Rivas and Eddy~\cite{rivas99dynamic}.  The
+algorithm is complex and its worst case complexity is $O(n^6)$ for
+time and $O(n^4)$ for space, where $n$ is the number of nucleotides in the sequence.
+Although their model handles the most
+general class of pseudoknotted structures, the loop types and
+thermodynamic model underlying the Rivas and Eddy algorithms are
+specified only implicitly in the recurrence equations.  Therefore,
+there does not exist a one-to-one correspondence between loops and
+terms in the recurrence equation. Hence, it is difficult to infer
+the loop types directly from the recurrence. On the other hand, the
+{\em HotKnots}' model is the first of its kind that, given a
+pseudoknotted secondary structure, it calculates its free
+energy~\cite{DBLP:conf/wabi/RastegariC05}.
+
+%{\em SARNA-Predict-pk} implemented the thermodynamic model that was
+%described by Rastegari and Condon~\cite{DBLP:conf/wabi/RastegariC05}
+%and implemented in the {\em HotKnots} software~\cite{ren_2005}.
+The {\em HotKnots} model is a linear time model that builds on an
+algorithm of Bader et al.~\cite{bader_2001} and extends to parse a
+pseudoknotted secondary structure to its components loops and to
+calculate its free energy. In this model, a structure was parsed
+into its component's loops in two steps: 1) the tree of closed
+regions is built and 2) the tree is traversed and the list of base
+pairs in each loop is output.
+
+In standard thermodynamic models for pseudoknot free secondary
+structures, the energy of a loop is a function of (i) loop type,
+(ii) an ordered list of its member base pairs, (iii) the bases
+forming each member base pair, and (iv) the unpaired bases which are
+members of the loop and are adjacent to each member base pair (if
+any)~\cite{DBLP:conf/wabi/RastegariC05}. The energy of a
+pseudoknot free secondary structure is calculated by summing the
+free energy of its component loops. To extend this model for
+pseudoknotted structures, the standard thermodynamic model includes
+(v) the location status of the loop, which indicates its position
+relative to pseudoloops in the structure. Then, the free energy of
+the structure can be calculated by adding up the free energy of all
+loops and using the Turner
+parameters~\cite{serra_1995}~\cite{MathewsSZT99} as implemented in
+the {\em HotKnots} software~\cite{ren_2005}.
+
+The greatest strength of {\em SARNA-Predict-pk} lies within its potential 
+to incorporate any thermodynamic model during the optimization process.
+{\em SARNA-Predict-pk}'s optimization process is less restrictive than
+other approaches, such as dynamic programming.  
+Therefore many different classes of pseudoknots can be predicted.
+This feature of {\em SARNA-Predict-pk} makes it
+superior to other approaches, such as the dynamic programming algorithm {\em mfold}, which can only predict
+pseudoknots-free structures and is not readily extended to use other thermodynamic models.
+
+In addition, since {\em SARNA-Predict-pk} is based on heuristic approaches,
+it has the ability to handle long RNA sequences.
+As shown in the results in section~\ref{results}, while other approaches 
+failed to yield results for long RNA sequences, {\em SARNA-Predict-pk} 
+was successfull in predicting long RNA secondary structures with pseudoknots. 
+
+Furthermore, some modifications were made to {\em SARNA-Predict-pk} in order to
+incorporate this new thermodynamic model. These include conversion functions from
+the {\em ct} to {\em bpseq} formats that the {\em HotKnots} model required.
+Also, {\em SARNA-Predict-pk} incorporates the new thermodynamic model as the
+cost function. The cost function is used to evaluate the free energy
+for the potential secondary structures. The {\em HotKnots} package
+also has to be modified, in particular the routines for parsing the
+secondary structure and computing the energy using the Turner
+parameters has been incorporated into {\em SARNA-Predict-pk}.
+
+
+%\subsection{Statistical Clustering Approaches}
+%Ensemble-based approaches to RNA secondary structure prediction have become increasingly
+%popular.
+%Ding and Lawrence introduced a dynamic programming algorithm {\em Sfold} which efficiently
+%samples suboptimal secondary structures from the complete Boltzmann ensemble of RNA
+%secondary structures~\cite{ding_2004}~\cite{chan_2005}.
+%
+%\medskip
+%\textit{SARNA-Predict} is designed to accommodate incorporation of different thermodynamic models
+%with relative ease and to incorporate prediction of RNA with pseudoknots during the free energy evaluation.
+%This is a slight advantage over {\em mfold}, which can only predict pseudoknots-free
+%structures and cannot be readily extended to use other thermodynamic models.
+%{\em SARNA-Predict-pk}, a modified version of {\em SARNA-Predict}~\cite{tsang_2006}~\cite{tsang_2007}~\cite{tsang_2007_cec}
+%is capable of predicting RNA secondary structures with pseudoknots. This is a significant
+%advantage over Schmitz and Steger's algorithm and also its dynamic programming
+%counterpart, {\em mfold}.
+
+%In previous work, we have presented the permutation-based algorithm for RNA secondary structure
+%prediction based on SA with a simple thermodynamic model~\cite{tsang_2006} and studies  it's
+%convergence behavior and also the different effect of the annealing schedules~\cite{tsang_2007}.
+%Subsequently, we have demonstrated the improved performance of {\em SARNA-Predict}
+%in terms of Sensitivity, Specificity and F-measure when the {\em efn2}
+%thermodynamic model were employed~\cite{tsang_2007_cec}.
+%%Simulated Annealing (SA) algorithm
+%for the prediction of the secondary structure of RNA molecules,
+%where the secondary structure is encoded as a permutation.
+%As demonstrated in this paper, the performance of {\em SARNA-Predict-pk} in
+%terms of Sensitivity, Specificity and F-measure surpasses other Heuristic and Dynamic
+%programming algorithms.
+%{\em mfold} when  using
+%the {\em efn2} thermodynamic model~\cite{tsang_2007_cec}.
+
+
+%In the following sections, we will report the results of {\em SARNA-Predict-pk}
+%and compare it with other  RNA secondary structure folding algorithms:
+%%{\em RnaPredict} and {\em P-RnaPredict}~\cite{alainthesis, Wiese02102006},
+%%{\em mfold}~\cite{zuker1981}~\cite{zuker94prediction}~\cite{Zuker_2003},
+%{\em HotKnots}~\cite{ren_2005}, {\em ILM}~\cite{ruan_2004}, {\em
+%pknotsRE}~\cite{rivas99dynamic}, {\em STAR}~\cite{gultyaev_1995},
+%{\em pknotsRG-mfe}~\cite{reeder_2004} and {\em
+%NUPACK}~\cite{dirks_2003}. {\em SARNA-Predict-pk} is a modified
+%version of {\em SARNA-Predict} where it is capable to predict RNA
+%secondary structures with pseudoknots. The basic algorithm for {\em
+%SARNA-Predict-pk} is identical to {\em SARNA-Predict} with the
+%exception of the thermodynamic model. {\em SARNA-Predict-pk} employs
+%the thermodynamic model that was described by Rastegari and
+%Condon~\cite{DBLP:conf/wabi/RastegariC05} and implemented in the
+%{\em HotKnots} software~\cite{ren_2005}.
+%
+%The current paper has the following objectives:
+%\begin{itemize}
+%\item To demonstrate the usefulness of the permutation-based SA algorithm for RNA secondary
+%   structure prediction based on free energy minimization techniques over a wide range of
+%   RNA structures. This include 20 individual known structures over seven RNA classes
+%   (tRNA, viralRNA, anti-genomic HDV, telomerase RNA, tmRNA, RNaseP, and rRNA).
+%
+%\item To incorporate a thermodynamic model ({\em Hotknots}) into {\em SARNA-Predict-pk} which
+%   enable the algorithm to predict pseudoknotted structures.
+%   This shows one of the greatest strength of {\em SARNA-Predict} in its
+%   capabilities in incorporating different thermodynamic models during the optimization.
+%\item To measure the accuracy of structure prediction of {\em SARNA-Predict-pk} against the accuracy of
+%   structures predicted by using several state-of-the-art prediction algorithms.
+%   Four of these are dynamic programming algorithms: {\em mfold}, {\em Pseudoknot (pknotsRE)}, {\em NUPACK},
+%   and {\em pknotsRG-mfe}. The other five are heuristic algorithms: {\em P-RnaPredict},
+%   {\em SARNA-Predict}, {\em HotKnots}, {\em ILM}, and {\em STAR} algorithms.
+%\end{itemize}
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Implementation and run-time}
+The algorithm was implemented in C++. 
+All our experiments ran on a purpose-built 128 node Beowulf cluster that allowed rapid fine-tuning of parameters, perform parameter sweeps, etc. 
+%A significant overhead was involved by logging parameters and internal data.
+A single run on a single CPU of a structure up to 100 nt will complete in seconds. Up to 200 nt in under 1 minute, up to 400 nt in under 10 minutes and up to 800 nt in under 40 min. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Results}
+\label{results}
+An empirical evaluation of the algorithm was performed with twenty sequences taken from the 
+Pseudobase database
+and from the literature on pseudoknotted structures.
+The twenty sequences and their relevant statistics are summarized in
+Table~\ref{tab:Hotknots_data}.
+
+\begin{table}[h]
+\scriptsize
+\centering \caption{RNA sequence details, taken from the HotKnots~\cite{ren_2005} paper. Sequences with \# are
+pseudoknotted structures.}\label{tab:Hotknots_data}
+%\vskip\abovecaptionskip
+
+\begin{tabular}{p{1.1in} p{0.8in} p{0.3in} p{0.3in}}
+%\begin{tabular} {|p{2.5in}|p{1.5in}|p{0.4in}|p{1in}|}
+%\begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \textbf{Sequence ID (Reference)}   & \textbf{RNA Class}   & \textbf{Length (nt)} & \textbf{Base Pairs in Known Structure}\\
+        \hline
+        \hline
+        \textit{DA1280} (\cite{sprinzl_1998}) & tRNA & 73 & 21 \\
+        \textit{DC0262} (\cite{sprinzl_1998}) & tRNA & 73 & 21 \\
+        \textit{DD0260} (\cite{sprinzl_1998}) & tRNA & 73 & 21 \\
+        \textit{DA0260} (\cite{sprinzl_1998})  & tRNA & 75 & 22\\
+        \textit{DC0010} (\cite{sprinzl_1998})  & tRNA & 73 & 21\\
+        \textit{DY4441} (\cite{sprinzl_1998})  & tRNA & 73 & 21\\
+        \textit{TYMV} (\cite{deima_1997})\#  & viralRNA & 86 & 25\\
+        \textit{HDV-anti} (\cite{ferre_1998})\#  & anti-genomic HDV & 91 & 24\\
+        \hline
+        \textit{telo.human} (\cite{chen_2000})\#  & telomerase RNA & 210 & 50\\
+        \textit{HCV~lres} (\cite{belkum_1985})\#  & viral RNA & 210 & 22\\
+        \textit{CSFV~IRES} (\cite{belkum_1985})\#  & viral RNA & 235 & 27\\
+        \textit{BVDV IRES} (\cite{belkum_1985})\#  & viral RNA & 239 & 27\\
+        \textit{tmRNA10380} (\cite{DBLP:journals/nar/BatenburgGP01})\#  & tmRNA & 297 & 90\\
+        \textit{RNaseP9917} (\cite{brown_1997})  & RNaseP & 308 & 82\\
+        \textit{RNaseP9955} (\cite{brown_1997})  & RNaseP & 308 & 80\\
+        \textit{RNaseP10215} (\cite{brown_1997})  & RNaseP & 316 & 94\\
+        \textit{RNaseP10058} (\cite{brown_1997})  & RNaseP & 342 & 97\\
+        \textit{ECrpml} (\cite{DBLP:journals/nar/BatenburgGP01})\#  & rRNA & 394 & 30\\
+        \textit{EC\_RNase\_P4} (\cite{brown_1997})  & RNaseP & 353 & 32\\
+        \textit{A.tum.RNase.P} (\cite{brown_1997})\#  & RNaseP & 400 & 132\\
+        \hline
+\end{tabular}
+\end{table}
+
+
+Among the 20 sequences, 11 are pseudoknot-free (the tRNA sequences and 
+five of the RNaseP sequences). Eight of the sequences are relatively short,
+ranging in length from 73 to 91 nucleotides (nt), and the remaining 12 are significantly
+longer, with lengths ranging from 210 to 400 nt.
+For each sequence, we measured both the sensitivity and specificity of the highest matching structure and
+also the lowest free-energy secondary structure predicted by {\em SARNA-Predict-pk}.
+
+The accuracy of {\em SARNA-Predict-pk} was determined by using the performance
+metrics derived from~\cite{PierreBaldi_2000}. There,
+``Known bps" is the total number of base pairs present in the known structure.
+``Predicted bps" is the total number of base pairs present in the predicted structure.
+``TP" is the true positive base pair count where the predicted base  pairs are present
+in the known structure.
+``FP" is the false positive base pair count where the predicted base pairs are not present
+in the known structure.
+``FN" is the false negative base pair count where the base pairs are present in the known
+structure and not in the predicted structure. Using these numbers, the notion of
+sensitivity and specificity were formed
+%sensitivity, specificity, and F-measure were formed
+according to these formulas:
+``Sensitivity (\%)" = $TP/(TP+FN) \times 100$.
+``Specificity (\%)" = $TP/(TP + FP) \times 100$.
+%``F-measure (\%)" = $2 \times$ specificity $\times$ sensitivity / (specificity + sensitivity) $\times 100$.
+%F-measure is a single performance measure for a predictor which combines both specificity
+%and sensitivity into a single measure.
+
+The results reported in this paper were obtained by conducting experiments with parameter sweep
+features based on the classes of annealing schedules that are most widely employed~\cite{li1997}~\cite{aarts1989}:
+\begin{itemize}
+\item A high starting acceptance probability (e.g. 0.95 - 0.90)
+\item A very low terminating acceptance probability (e.g. 0.01 - 0.02)
+\item A slow cooling rate, $\alpha \in [0,1[$, where $T_{new} = \alpha T_{old}$.
+  (e.g. $\alpha$ between 0.8 and 0.99)
+\item The number of iterations is equal to the number of neighboring solutions.
+Neighboring solutions are defined as two adjacent states that can be reached
+by a single move (i.e. $(s,s') \in M)$ (e.g. 3,000 - 3,500)
+\end{itemize}
+
+
+Table~\ref{tab:results_highestBP_SetB_pk_SenSpec} shows the comparison of the results from {\em SARNA-Predict-pk}
+and other prediction algorithms in terms of Sensitivity and Specificity for each sequence.
+%The data for {\em HotKnots}, {\em ILM}, {\em pknotsRE}, {\em STAR}, {\em pknotsRG-mfe} and {\em NUPACK} were results previously
+%reported by~\cite{ren_2005}.
+The table is organized into sections for shorter sequences (73-91 nt in length) and longer sequences (210 - 400 nt).
+Also, the average results according to the sequence length and whether it is a pseudoknotted structures
+are reported at the bottom of this table.
+
+%\begin{table*}
+\begin{table*}[ht]
+%\begin{sidewaystable}
+%\small
+\scriptsize
+%\tiny
+\begin{center}
+%\caption{Comparison of the highest matching base pair structures results from {\em SARNA-Predict-pk} and other prediction algorithms in
+\caption{Comparison of the results from {\em SARNA-Predict-pk} and other prediction algorithms in
+        terms of Sensitivity and Specificity. Best results are in bold.
+        Sequences with \# are pseudoknotted structures. ``*" indicates the inability to run
+        the algorithm to completion.}\label{tab:results_highestBP_SetB_pk_SenSpec}
+%\vskip\abovecaptionskip
+\begin{tabular}{p{0.75in} p{0.21in} |
+p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.14in}|
+p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.1in} p{0.1in}}
+\hline
+    {\bf } &     {\bf } &   \multicolumn{ 8}{l}{{\bf Sensitivity}}   &  &  & & \multicolumn{ 8}{l}{{\bf Specificity}} & &  \\
+\hline
+\rotatebox{90}{\bf Sequence ID} & \rotatebox{90}{\bf Length (nt)} &
+\rotatebox{90}{\bf SARNA-Predict-pk }  & \rotatebox{90}{\bf SARNA-Predict-pk (lowest G)} &
+\rotatebox{90}{\bf HotKnots} &
+\rotatebox{90}{\bf Sfold (Ensemble Centroid)} & \rotatebox{90}{\bf Sfold (lowest G)} &
+\rotatebox{90}{\bf ILM} & \rotatebox{90}{\bf pknotsRE} &
+\rotatebox{90}{\bf STAR} & \rotatebox{90}{\bf pknotsRG-mfe} & \rotatebox{90}{\bf NUPACK} &  \rotatebox{90}{\bf IPknot} &
+\rotatebox{90}{\bf SARNA-Predict-pk } & \rotatebox{90}{\bf SARNA-Predict-pk (lowest G)} &
+\rotatebox{90}{\bf HotKnots} &
+\rotatebox{90}{\bf Sfold (Ensemble Centroid)} & \rotatebox{90}{\bf Sfold (lowest G)} &
+\rotatebox{90}{\bf ILM} & \rotatebox{90}{\bf pknotsRE} &
+\rotatebox{90}{\bf STAR} & \rotatebox{90}{\bf pknotsRG-mfe} & \rotatebox{90}{\bf NUPACK} &  \rotatebox{90}{\bf IPknot}\\
+\hline
+\hline
+DA1280                  & 73     & {\bf 1.00} & {\bf 1.00} & {\bf 1.00} & {\bf 1.00} & {\bf 1.00} & {\bf 1.00} & 0.76 & {\bf 1.00} & {\bf 1.00} & {\bf 1.00} & {\bf 1.00} & 0.75 & 0.75 & {\bf 0.95} & 0.91 & 0.91 & 0.80 & 0.69 & {\bf 0.95} & {\bf 0.95} & {\bf 0.95} & 0.91 \\
+DC0262                  & 73     & 0.62 & 0.62 & 0.85 & 0.76 & {\bf 0.86} & 0.85 & 0.61 & 0.85 & 0.85 & 0.61 & 0.76 & 0.54 & 0.54 & 0.78 & {\bf 0.89} & 0.75 & 0.66 & 0.52 & 0.78 & 0.78 & 0.54 & 0.70 \\
+DD0260                  & 73     & 0.57 & 0.57 & {\bf 0.95} & 0.33 & 0.29 & 0.68 & 0.69 & 0.50 & 0.77 & 0.77 & 0.90 & 0.50 & 0.50 & 0.68 & {\bf 1.00} & 0.29 & 0.68 & 0.68 & 0.50 & 0.85 & 0.89 & 0.83 \\
+DA0260                  & 75     & 0.77 & 0.50 & {\bf 0.85} & 0.77 & 0.77 & {\bf 0.85} & 0.61 & {\bf 0.85} & {\bf 0.85} & 0.61 & 0.64 & 0.65 & 0.48 & 0.78 & {\bf 0.85} & {\bf 0.85} & 0.66 & 0.52 & 0.78 & 0.78 & 0.54 & 0.78 \\
+DC0010                  & 73     & 0.57 & 0.57 & {\bf 1.00} & 0.95 & {\bf 1.00} & 0.90 & {\bf 1.00} & 0.95 & {\bf 1.00} & 0.80 & 0.95 & 0.60 & 0.60 & {\bf 1.00} & 0.95 & {\bf 1.00} & {\bf 1.00} & {\bf 1.00} & 0.95 & 0.95 & 0.95 & 0.95 \\
+DY4441                  & 73     & 0.67 & 0.52 & 0.95 & 0.95 & 0.95 & 0.76 & 0.71 & {\bf 1.00} & 0.19 & 0.19 & 0.95 & 0.56 & 0.42 & 0.29 & {\bf 1.00} & {\bf 1.00} & 0.40 & 0.29 & 0.30 & 0.29 & 0.30 & 0.91 \\
+TYMV{~\#}                   & 86     & 0.84 & 0.84 & 0.72 & 0.72 & 0.72 & {\bf 0.88} & 0.72 & {\bf 0.88} & 0.76 & 0.44 & 0.80 & 0.84 & 0.84 & 0.78 & {\bf 1.00} & 0.78 & 0.75 & 0.78 & 0.88 & 0.79 & 0.50 & 0.80 \\
+{\it HDV-anti}{~\#}                & 91     & {\bf 1.00} & {\bf 1.00} & 0.16 & 0.17 & 0.17 & {\bf 1.00} & 0.41 & 0.62 & 0.16 & 0.41 & 0.83 & {\bf 0.73} & {\bf 0.73} & 0.14 & 0.14 & 0.14 & 0.66 & 0.31 & 0.60 & 0.14 & 0.32 & 0.59 \\
+%                        &        &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      \\
+\hline
+                        telo.human{~\#}              & 210    & {\bf 0.76} & 0.38 & 0.70 & 0.68 & 0.68 & 0.28 & 0.48 & 0.48 & 0.54 & *    & 0.26 & 0.49 & 0.26 & {\bf 0.55} & 0.54 & 0.52 & 0.17 & 0.32 & 0.38 & 0.42 & *    & 0.25 \\
+                        HCV lres{~\#}                & 210    & {\bf 0.82} & 0.41 & 0.36 & 0.36 & 0.36 & 0.68 & 0.70 & 0.40 & 0.36 & *    & 0.41 & {\bf 0.24} & 0.12 & 0.11 & 0.13 & 0.12 & 0.18 & 0.22 & 0.13 & 0.11 & *    & 0.16 \\
+                        CSFV\_IRES{~\#}              & 235    & {\bf 0.93} & {\bf 0.93} & 0.33 & 0.33 & 0.33 & 0.74 & *    & 0.74 & 0.00 & *    & 0.74 & 0.34 & 0.30 & 0.11 & 0.12 & 0.12 & 0.23 & *    & 0.25 & 0.00 & *    & {\bf 0.37} \\
+                        BVDV\_IRES{~\#}              & 239    & 0.67 & 0.52 & 0.51 & 0.52 & 0.52 & {\bf 0.85} & *    & 0.74 & 0.51 & *    & 0.70 & 0.24 & 0.17 & 0.19 & 0.19 & 0.19 & {\bf 0.25} & *    & 0.24 & 0.17 & *    & {\bf 0.25} \\
+                        tmRNA10380{~\#}              & 297    & {\bf 0.67} & 0.40 & 0.46 & 0.47 & 0.47 & 0.34 & *    & 0.25 & 0.40 & *    & 0.51 & {\bf 0.61} & 0.26 & 0.48 & 0.51 & 0.48 & 0.31 & *    & 0.39 & 0.34 & *    & 0.55 \\
+                        RNaseP9917              & 308    & 0.65 & 0.40 & 0.51 & 0.56 & 0.51 & 0.60 & *    & {\bf 0.71} & 0.51 & *    & 0.63 & 0.53 & 0.33 & 0.45 & 0.51 & 0.45 & 0.51 & *    & {\bf 0.62} & 0.59 & *    & 0.60 \\
+                        RNaseP9955              & 308    & 0.64 & 0.51 & 0.58 & 0.59 & 0.59 & 0.47 & *    & 0.63 & {\bf 0.66} & *    & 0.50 & 0.55 & 0.48 & 0.56 & 0.59 & 0.57 & 0.41 & *    & {\bf 0.62} & 0.59 & *    & 0.56 \\
+                        RNaseP10215             & 316    & {\bf 0.48} & 0.27 & 0.41 & 0.41 & 0.41 & 0.40 & *    & 0.45 & 0.42 & *    & 0.44 & 0.40 & 0.22 & 0.38 & 0.46 & 0.38 & 0.34 & *    & 0.47 & 0.45 & *    & {\bf 0.66} \\
+                        RNaseP10058             & 342    & 0.46 & 0.22 & 0.39 & 0.38 & 0.38 & 0.31 & *    & {\bf 0.57} & 0.39 & *    & 0.42 & 0.41 & 0.18 & 0.37 & 0.43 & 0.36 & 0.27 & *    & {\bf 0.60} & 0.39 & *    & 0.43 \\
+                        EC rpml{~\#}                 & 343    & {\bf 0.70} & 0.10 & 0.56 & 0.57 & 0.57 & 0.46 & *    & 0.50 & 0.56 & *    & 0.47 & {\bf 0.18} & 0.03 & 0.16 & {\bf 0.18} & 0.16 & 0.11 & *    & 0.15 & 0.16 & *    & 0.16 \\
+                        EC RNaseP p4            & 353    & 0.50 & 0.22 & {\bf 0.75} & 0.53 & {\bf 0.75} & 0.28 & *    & 0.68 & {\bf 0.75} & *    & 0.53 & 0.14 & 0.06 & {\bf 0.22} & 0.17 & {\bf 0.22} & 0.07 & *    & 0.20 & {\bf 0.22} & *    & {\bf 0.22} \\
+                        A.tum.RNase.P{~\#}           & 400    & 0.60 & 0.37 & {\bf 0.77}  & 0.74 & {\bf 0.77} & 0.61 & *    & 0.72 & {\bf 0.77} & *    & 0.69 & 0.59 & 0.40 & 0.82 & {\bf 0.90} & 0.82 & 0.62 & *    & 0.84 & 0.82 & *    & 0.80 \\
+\hline
+%                                                &        &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      \\
+ Average (ALL)           & 208.9  & {\bf 0.70} & 0.52 & 0.64 & 0.59 & 0.61 & 0.65 & 0.67 & 0.68 & 0.57 & 0.60 & 0.66 & 0.49 & 0.38 & 0.49 & {\bf 0.57} & 0.51 & 0.45 & 0.53 & 0.53 & 0.49 & *    & {\bf 0.57} \\
+\hline
+%                                                                        &        &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      \\
+ Avg (Short)             & 77.13  & 0.76 & 0.70 & 0.81 & 0.71 & 0.72 & {\bf 0.87} & 0.69 & 0.83 & 0.70 & 0.60 & 0.85 & 0.65 & 0.61 & 0.68 & {\bf 0.84} & 0.72 & 0.70 & 0.60 & 0.72 & 0.69 & 0.62 & 0.81 \\
+                                                                        Avg (Long)              & 296.75 & {\bf 0.66} & 0.39 & 0.53 & 0.51 & 0.53 & 0.50 & *    & 0.57 & 0.49 & *    & 0.53 & 0.39 & 0.23 & 0.37 & 0.39 & 0.37 & 0.29 & *    & 0.41 & 0.36 & *    & {\bf 0.42} \\
+\hline
+%                                                                                                &        &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      &      \\
+Avg (Pknot-free-struct) & 187.91 & 0.63 & 0.49 & {\bf 0.75} & 0.66 & 0.68 & 0.65 & *    & 0.74 & 0.67 & *    & 0.70 & 0.51 & 0.41 & 0.59 & {\bf 0.71} & 0.62 & 0.53 & *    & 0.62 & 0.62 & *    & 0.69 \\
+Avg (Pknot)             & 234.56 & {\bf 0.78} & 0.55 & 0.51 & 0.51 & 0.51 & 0.65 & *    & 0.59 & 0.45 & *    & 0.60 & {\bf 0.47} & 0.35 & 0.37 & 0.41 & 0.37 & 0.36 & *     & 0.43 & 0.33 & *    & 0.44 \\
+\hline
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%{\it DA1280} &         73 & {\bf 1.00} & {\bf 1.00} & {\bf 1.00} & {\bf 1.00} & {\bf 1.00} & {\bf 1.00} &       0.76 &       1.00 &       1.00 &   1.00 &    1.00 &       0.75 &       0.75 & {\bf 0.95} &       0.91 &       0.91 &       0.80 &       0.69 & {\bf 0.95} & {\bf 0.95} & {\bf 0.95} \\
+%
+%{\it DC0262} &         73 &       0.62 &       0.62 &       0.85 &       0.76 & {\bf 0.86} &       0.85 &       0.61 &       0.85 &       0.85 &       0.61 & 0.85 &      0.54 &       0.54 & {\bf 0.78} &       0.89 &       0.75 &       0.66 &       0.52 & {\bf 0.78} & {\bf 0.78} &       0.54 \\
+%
+%{\it DD0260} &         73 &       0.57 &       0.57 & {\bf 0.95} &       0.33 &       0.29 &       0.68 &       0.69 &       0.50 &       0.77 &       0.77 & 0.77 &      0.50 &       0.50 &       0.68 &       1.00 &       0.29 &       0.68 &       0.68 &       0.50 &       0.85 & {\bf 0.89} \\
+%
+%{\it DA0260} &         75 &       0.77 &       0.50 & {\bf 0.85} &       0.77 &       0.77 & {\bf 0.85} &       0.61 & {\bf 0.85} & {\bf 0.85} &       0.61 &  0.64 &      0.65 &       0.48 &       0.78 & {\bf 0.85} & {\bf 0.85} &       0.66 &       0.52 &       0.78 &       0.78 &       0.54 \\
+%
+%{\it DC0010} &         73 &       0.57 &       0.57 & {\bf 1.00} &       0.95 & {\bf 1.00} &       0.90 & {\bf 1.00} &       0.95 & {\bf 1.00} &       0.80 & 0.95 &      0.60 &       0.60 & {\bf 1.00} &       0.95 & {\bf 1.00} & {\bf 1.00} & {\bf 1.00} &       0.95 &       0.95 &       0.95 \\
+%{\it DY4441} &         73 &       0.67 &       0.52 &       0.95 &       0.95 &       0.95 &       0.76 &       0.71 & {\bf 1.00} &       0.19 &       0.19 & 0.95 &      0.56 &       0.42 &       0.29 & {\bf 1.00} & {\bf 1.00} &       0.40 &       0.29 &       0.30 &       0.29 &       0.30 \\
+%
+%{\it TYMV}{~\#} &         86 &       0.84 &       0.84 &       0.72 &       0.72 &       0.72 & {\bf 0.88} &       0.72 & {\bf 0.88} &       0.76 &       0.44 & 0.80 &      0.84 &       0.84 &       0.78 & {\bf 1.00} &       0.78 &       0.75 &       0.78 &       0.88 &       0.79 &       0.50 \\
+%
+%{\it HDV-anti}{~\#} &         91 & {\bf 1.00} & {\bf 1.00} &       0.16 &       0.17 &       0.17 & {\bf 1.00} &       0.41 &       0.62 &       0.16 &       0.41 & 0.83 & {\bf 0.73} & {\bf 0.73} &       0.14 &       0.14 &       0.14 &       0.66 &       0.31 &       0.60 &       0.14 &       0.32 \\
+%
+%\hline
+%{\it telo.human} {~\#}&        210 & {\bf 0.76} &       0.38 &       0.70 &       0.68 &       0.68 &       0.28 &       0.48 &       0.48 &       0.54 &          * &       0.49 &       0.26 & {\bf 0.55} &       0.54 &       0.52 &       0.17 &       0.32 &       0.38 &       0.42 &          * \\
+%
+%{\it HCV lres}{~\#} &        210 & {\bf 0.82} &       0.41 &       0.36 &       0.36 &       0.36 &       0.68 &       0.70 &       0.40 &       0.36 &          * & {\bf 0.24} &       0.12 &       0.11 &       0.13 &       0.12 &       0.18 &       0.22 &       0.13 &       0.11 &          * \\
+%
+%{\it CSFV\_IRES}{~\#} &        235 & {\bf 0.93} & {\bf 0.93} &       0.33 &       0.33 &       0.33 &       0.74 &          * &       0.74 &       0.00 &          * & {\bf 0.34} &       0.30 &       0.11 &       0.12 &       0.12 &       0.23 &          * &       0.25 &       0.00 &          * \\
+%
+%{\it BVDV\_IRES}{~\#} &        239 &       0.67 &       0.52 &       0.51 &       0.52 &       0.52 & {\bf 0.85} &          * &       0.74 &       0.51 &          * &       0.24 &       0.17 &       0.19 &       0.19 &       0.19 & {\bf 0.25} &          * &       0.24 &       0.17 &          * \\
+%
+%{\it tmRNA10380}{~\#} &        297 & {\bf 0.67} &       0.40 &       0.46 &       0.47 &       0.47 &       0.34 &          * &       0.25 &       0.40 &          * & {\bf 0.61} &       0.26 &       0.48 &       0.51 &       0.48 &       0.31 &          * &       0.39 &       0.34 &          * \\
+%
+%{\it RNaseP9917} &        308 &       0.65 &       0.40 &       0.51 &       0.56 &       0.51 &       0.60 &          * & {\bf 0.71} &       0.51 &          * &       0.53 &       0.33 &       0.45 &       0.51 &       0.45 &       0.51 &          * & {\bf 0.62} &       0.59 &          * \\
+%
+%{\it RNaseP9955} &        308 &       0.64 &       0.51 &       0.58 &       0.59 &       0.59 &       0.47 &          * &       0.63 & {\bf 0.66} &          * &       0.55 &       0.48 &       0.56 &       0.59 &       0.57 &       0.41 &          * & {\bf 0.62} &       0.59 &          * \\
+%
+%{\it RNaseP10215} &        316 & {\bf 0.48} &       0.27 &       0.41 &       0.41 &       0.41 &       0.40 &          * &       0.45 &       0.42 &          * &       0.40 &       0.22 &       0.38 &       0.46 &       0.38 &       0.34 &          * & {\bf 0.47} &       0.45 &          * \\
+%
+%{\it RNaseP10058} &        342 &       0.46 &       0.22 &       0.39 &       0.38 &       0.38 &       0.31 &          * & {\bf 0.57} &       0.39 &          * &       0.41 &       0.18 &       0.37 &       0.43 &       0.36 &       0.27 &          * & {\bf 0.60} &       0.39 &          * \\
+%
+%{\it EC rpml}{~\#} &        343 & {\bf 0.70} &       0.10 &       0.56 &       0.57 &       0.57 &       0.46 &          * &       0.50 &       0.56 &          * & {\bf 0.18} &       0.03 &       0.16 & {\bf 0.18} &       0.16 &       0.11 &          * &       0.15 &       0.16 &          * \\
+%
+%{\it EC RNaseP p4} &        353 &       0.50 &       0.22 & {\bf 0.75} &       0.53 &       0.75 &       0.28 &          * &       0.68 & {\bf 0.75} &          * &       0.14 &       0.06 & {\bf 0.22} &       0.17 &       0.22 &       0.07 &          * &       0.20 & {\bf 0.22} &          * \\
+%
+%{\it A.tum.RNase.P}{~\#} &        400 &       0.60 &       0.37 & {\bf 0.77} &       0.74 &       0.77 &       0.61 &          * &       0.72 & {\bf 0.77} &          * &       0.59 &       0.40 &       0.82 &       0.90 &       0.82 &       0.62 &          * & {\bf 0.84} &       0.82 &          * \\
+%
+%\hline
+%Average (ALL) &      208.9 & {\bf 0.70} &       0.52 &       0.64 &       0.59 &       0.61 &       0.65 &       0.67 &       0.68 &       0.57 &       0.60 &       0.49 &       0.38 &       0.49 & {\bf 0.57} &       0.51 &       0.45 &       0.53 &       0.53 &       0.49 &          * \\
+%
+%\hline
+%Avg (Short) &      77.13 &       0.76 &       0.70 &       0.81 &       0.71 &       0.72 & {\bf 0.87} &       0.69 &       0.83 &       0.70 &       0.60 &       0.65 &       0.61 &       0.68 & {\bf 0.84} &       0.72 &       0.70 &       0.60 &       0.72 &       0.69 &       0.62 \\
+%
+%Avg (Long) &     296.75 & {\bf 0.66} &       0.39 &       0.53 &       0.51 &       0.53 &       0.50 &          * &       0.57 &       0.49 &          * &       0.39 &       0.23 &       0.37 &       0.39 &       0.37 &       0.29 &          * & {\bf 0.41} &       0.36 &          * \\
+%
+%\hline
+%Avg (Pknot-free-struct) &     187.91 &       0.63 &       0.49 & {\bf 0.75} &       0.66 &       0.68 &       0.65 &          * &       0.74 &       0.67 &          * &       0.51 &       0.41 &       0.59 & {\bf 0.71} &       0.62 &       0.53 &          * &       0.62 &       0.62 &          * \\
+%
+%Avg (Pknot) &     234.56 & {\bf 0.78} &       0.55 &       0.51 &       0.51 &       0.51 &       0.65 &          * &       0.59 &       0.45 &          * & {\bf 0.47} &       0.35 &       0.37 &       0.41 &       0.37 &       0.36 &            &       0.43 &       0.33 &          * \\
+%
+
+\hline
+\end{tabular}
+\end{center}
+%\end{table*}
+%\end{sidewaystable}
+\end{table*}
+
+Figure~\ref{fig:ROC_DataSetB_PK_ALL}
+shows a ROC (receiver operating characteristic) plot from {\em SARNA-Predict-pk} which
+simultaneously displays both sensitivity and specificity for the average value of all the
+sequences.
+Since both {\em pknotsRE} and {\em NUPACK} failed to produce results for longer sequences,
+they are included in this plot as reference only.
+This plot shows that with the sequences we have tested, {\em SARNA-Predict-pk} with the highest
+matching base pair results have the highest sensitivity in comparison to all other algorithms.
+%In terms of specificity, {\em STAR} is the only other algorithm that out-performed  {\em SARNA-Predict-pk}.
+In terms of specificity, {\em STAR}, {\em IPknot} and {\em Sfold } out-performed {\em SARNA-Predict-pk}.
+{\em HotKnots} and {\em pknotsRG-mfe} show the same average specificity results as {\em SARNA-Predict-pk}.
+Also note that the average results of the lowest energy
+$\Delta$G result of {\em SARNA-Predict-pk} performed poorly. 
+This is an indication of the limitation of the thermodynamic model.
+
+\begin{figure}[t]
+   \begin{center}
+   %\includegraphics[scale=0.8]{./plot/ROC_DataSetB_Avg_ALL_PK_LR.png}
+      %\includegraphics[scale=0.45]{./ROC_DataSetB_Avg_ALL_PK.pdf}
+      %\includegraphics[scale=0.45]{./plot/ROC_DataSetB_Avg_ALL_PK_wSFOLD.pdf}
+      \includegraphics[scale=0.47]{./plot/ROC_DataSetB_Avg_ALL.pdf}
+      \caption{The ROC plot to simultaneously display both
+        average sensitivity and specificity of all the sequences from data set in Table~\ref{tab:Hotknots_data}.\label{fig:ROC_DataSetB_PK_ALL}}
+   \end{center}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Results of short vs. long sequences}
+When averaged over the set of shorter test sequences, {\em SARNA-Predict-pk}
+with highest matching base pair shows $76\%$ and $65\%$  in terms of sensitivity
+and specificity respectively, while the top performer is {\em ILM} with $87\%$ for
+sensitivity and {\em Sfold} with $84\%$ for specificity.
+%{\em STAR} with $72\%$ for specificity.
+Equation~\ref{eqt:sensitivity_dataB-pk} shows
+the comparison of the algorithms performance in terms of sensitivity with the short sequences.
+\begin{eqnarray}
+\label{eqt:sensitivity_dataB-pk}
+{\mbox{ILM} \atop [heuristic]} >  {\mbox{IPknot} \atop [heuristic]} > {\mbox{STAR} \atop [heuristic]} >  \\ \nonumber
+{\mbox{HotKnots} \atop [heuristic]} >  
+{\mbox{SARNA-Predict-pk} \atop [heuristic]} >  {\mbox{Sfold (EC)} \atop [statistic]} > \\ \nonumber
+{\mbox{pknotsRG-mfe} \atop[DP]} > 
+{\mbox{pknotsRE}  \atop[DP]} > {\mbox{NUPACK}  \atop[DP]} 
+%\label{eqt:sensitivity_dataB-pk}
+\end{eqnarray}
+
+On the set of longer test sequences, {\em SARNA-Predict-pk}
+with highest matching base pairs demonstrates the highest average result of $66\%$ sensitivity. 
+In terms of specificity,  {\em SARNA-Predict-pk} reports $39\%$ while {\em IPknot} reports $42\%$.
+%the {\em STAR} reports $41\%$.
+For almost all of these longer test sequences, {\em pknotsRE} and {\em NUPACK} failed
+to produce results because the algorithm failed to run to completion.
+Equation~\ref{eqt:selectivitiy_dataB-pk} shows the same comparison in terms of sensitivity for the long sequences.
+\begin{eqnarray}
+\label{eqt:selectivitiy_dataB-pk}
+\small
+{\mbox{SARNA-Predict-pk} \atop [heuristic]} > 
+{\mbox{STAR} \atop [heuristic]} >  
+{\mbox{IPknot} \atop [heuristic]} >  \\ \nonumber
+{\mbox{HotKnots} \atop [heuristic]} >  
+{\mbox{Sfold (EC)} \atop [statistic]} > \\ \nonumber
+{\mbox{ILM} \atop [heuristic]} > 
+{\mbox{pknotsRG-mfe}  \atop[DP]} \nonumber
+\end{eqnarray}
+
+Overall, among the sequences we have tested, heuristic algorithms
+dominate the prediction of RNA secondary structure prediction with
+pseudoknots for both long and short sequences. The general trend
+shows that heuristic algorithms performed better in comparison to
+dynamic programming in terms of sensitivity and specificity; a clear
+indication of the advantage of heuristic algorithms. Also, we
+observed that both {\em SARNA-Predict} and {\em SARNA-Predict-pk}
+has an advantage over all the other algorithms when considering
+prediction of the long sequences.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Results of pseudoknotted vs. non-pseudoknotted structures}
+For the pseudoknotted structures only, {\em SARNA-Predict-pk} with highest sensitivity
+structure outperformed all other
+algorithms with $78\%$ and $47\%$ for sensitivity and specificity respectively, see
+Figure~\ref{fig:ROC_DataSetB_PK_ONLYPK}.
+\begin{figure}[t]
+   \begin{center}
+   %\includegraphics[scale=0.8]{./plot/ROC_DataSetB_Avg_PK_ONLYPK_LR.png}
+   %\includegraphics[scale=0.45]{./ROC_DataSetB_Avg_PK_ONLYPK.pdf}
+   %\includegraphics[scale=0.45]{./plot/ROC_DataSetB_Avg_PK_ONLYPK_wSFOLD.pdf}
+   \includegraphics[scale=0.47]{./plot/ROC_DataSetB_Avg_PK_ONLYPK.pdf}
+      \caption{The ROC plot to simultaneously display both
+        average sensitivity and specificity of the sequences from data set in Table~\ref{tab:Hotknots_data} 
+        that only contains pseudoknots.\label{fig:ROC_DataSetB_PK_ONLYPK}}
+   \end{center}
+\end{figure}
+
+Equation~\ref{eqt:selectivitiy_dataB-pkonly} shows the
+comparison of the algorithms performance in terms of sensitivity for the pseudoknotted sequences.
+\begin{eqnarray}
+\label{eqt:selectivitiy_dataB-pkonly}
+{\mbox{SARNA-Predict-pk} \atop [heuristic]} > 
+{\mbox{ILM} \atop [heuristic]} >  
+{\mbox{IPknot} \atop [heuristic]} >   \\ \nonumber 
+{\mbox{STAR} \atop [heuristic]} > 
+{\mbox{HotKnots} \atop [heuristic]} = {\mbox{Sfold (EC)} \atop [statistic]} > \\ \nonumber 
+{\mbox{pknotsRG-mfe}  \atop[DP]}
+\end{eqnarray}
+
+\noindent Equation~\ref{eqt:sensitivity_dataB-pkfree} shows
+the comparison of the algorithms performance in terms of sensitivity with the non-pseudoknotted sequences.
+\begin{eqnarray}
+\label{eqt:sensitivity_dataB-pkfree}
+{\mbox{HotKnots} \atop [heuristic]} > {\mbox{STAR} \atop [heuristic]} > {\mbox{IPknot} \atop [heuristic]} > \\ \nonumber 
+{\mbox{pknotsRG-mfe}  \atop[DP]} > 
+{\mbox{Sfold (EC)} \atop [statistic]} >
+{\mbox{ILM} \atop [heuristic]} > \\ \nonumber 
+{\mbox{SARNA-Predict-pk} \atop [heuristic]}
+\end{eqnarray}
+
+
+Overall, among the sequences we have tested, heuristic algorithms dominate the prediction of RNA secondary structure
+with pseudoknots in both long and short sequences.
+Note that {\em pknotsRE} and {\em NUPACK} (both DP algorithms) are not included in this comparison
+because they failed to produce results for longer sequences.
+The general trend shows that heuristic algorithms performed better than dynamic programming algorithms
+in terms of sensitivity.
+
+For prediction of pseudoknotted RNA secondary structures, {\mbox{SARNA-Predict-pk} out-performed
+all other algorithms.
+{\em SARNA-Predict-pk} shows $78\%$ on average sensitivity for the pseudoknotted sequences,
+the algorithm in second place ({\em ILM}) shows $65\%$ sensitivity.
+In terms of specificity, {\mbox{SARNA-Predict-pk} shows $47\%$ on average while
+the algorithm in second place 
+%({\em STAR}) has shows $43\%$.
+({\em IPknot}) has shows $44\%$.
+
+In Figure~\ref{fig:graph_percentageComparison_DA0260}, we can see the comparison results
+of two predicted structures of the DA0260 tRNA sequence.
+The result from {\em HotKnots} produced a higher
+sensitivity ($95\%$) than the result from {\em SARNA-Predict-pk} ($77\%$).
+%Note that we are using the performance matrix as described in Section~\ref{section:evaluation_metrics}.
+Upon visual examination, the clover leaf conformation between the native structure and
+the {\em SARNA-Predict-pk} structure is obvious, but the {\em HotKnots} results
+did not produce a clover leaf conformation.
+The {\em HotKnots} structure has combined two lobes of the clover leaf topology, hence
+the additional four base pairs were formed (GC, GU, GU and GC). This lead to the higher
+sensitivy results.
+
+%While numerical comparison showing the number
+%of correctly predicted base pairs was a relatively straight forward criteria for comparison, it did not
+%give any insights into what
+%differences there were between two predictions with a similar score.
+%This shows a need to re-evaluate the performance metrics, and
+%consider other metrics that taken into account the actual topology of the structure.
+
+\begin{figure}
+  \begin{center}
+    \begin{tabular}{cc}
+        \includegraphics[scale=0.4]{./structures/DA0260_native.png} &
+        \includegraphics[scale=0.4]{./structures/DA0260_Hotknots_95.png} \\
+      (a) & (b)  \\
+    &
+        \includegraphics[scale=0.4]{./structures/DA0260_SARNA_77.png} \\
+       & (c)
+    \end{tabular}
+  \end{center}
+
+     \caption{Plots of the structures of the {\em DA0260, tRNA sequence}.
+                (a) showing the native structure and
+                (b) showing the predicted structure by {\em HotKnots} with sensitivity of $95\%$.
+                (c) showing the predicted structure by {\em SARNA-Predict-pk} with sensitivity of $77\%$. }
+  \label{fig:graph_percentageComparison_DA0260}
+\end{figure}
+
+
+
+\section{Conclusion}
+We have presented a permutation-based simulated annealing algorithm for
+pseudoknotted RNA secondary structure prediction ({\em SARNA-Predict-pk}).
+The importance of {\em SARNA-Predict-pk} has been
+discussed and methods have been reviewed.
+%A major contribution was the incorporation of \emph{efn2} into {\em SARNA-Predict-pk}.
+A major contribution was the incorporation of the \emph{Hotknots} thermodynamic model
+into {\em SARNA-Predict-pk}.
+Since {\em SARNA-Predict-pk} can incorporate different thermodynamic models
+during the free energy evaluation, this feature gives {\em SARNA-Predict-pk} 
+an advantage over 
+other algorithms such as {\em mfold}.
+
+The results from twenty sequences of RNA from a variety of sequence lengths and organisms were tested
+with respect to other previously published RNA secondary structure prediction algorithms.
+%These algorithms include both heruistic and dynamic programming algorithms.
+These algorithms include heuristic, statistical clustering and dynamic programming algorithms.
+Among the other RNA secondary structure prediction algorithms that are capable to predict
+pseudoknotted structures,
+%for RNA secondary structures that are capable to predict pseudoknotted  structures,
+{\em SARNA-Predict-pk} out-performed other algorithms in terms of average sensitivity.
+{\em SARNA-Predict-pk} shows $70\%$ on average sensitivity over all sequences and
+the algorithm in second place, {\em STAR}, has $68\%$ sensitivity.
+When examining only the pseudoknotted structures, {\em SARNA-Predict-pk}
+out-performed other algorithm by $13\%$ in terms of sensitivity and $4\%$ in terms of specificity.
+In terms of average sensitivity, {\em SARNA-Predict-pk} shows $78\%$ and
+the algorithm in second place, {\em ILM}, shows $65\%$.
+In terms of average specificity, {\em SARNA-Predict-pk} shows $47\%$ and
+the algorithm in second place, {\em IPknot}, shows $44\%$.
+
+The current thermodynamic model did not consider non-canonical base pairs such as CU and GA
+neither by {\em SARNA-Predict} nor {\em mfold}; however,
+such non-canonical base pairs are found in native RNA structures
+therefore future work should also
+include the modeling of non-canonical base pairs to further increase the prediction
+performance of {\em SARNA-Predict}.
+
+
+% use section* for acknowledgement
+%\section*{Acknowledgment}
+%The first author would like to acknowledge support from the
+%School of Computing Science of Simon Fraser University 
+%and a Natural Sciences and Engineering Research Council of Canada (NSERC) 
+%Postdoctoral Fellowship. 
+%The second author would like to acknowledge the support of the 
+%Natural Sciences and Engineering Research Council (NSERC) for
+%this research under Research Grant number RG-PIN 238298.
+%Both authors would like to acknowledge the support of the InfoNet Media
+%Centre funded by the Canadian Foundation for Innovation (CFI) under grant number CFI-3648.
+
+
+
+%\section*{Acknowledgements}
+
+\bibliographystyle{IEEEtran.bst}
+\bibliography{./ref}
+
+%\bibliographystyle{unsrt.bst}
+%\bibliography{./ref}
+
+%\begin{thebibliography}{99}
+%\bibitem[\protect\citeauthoryear{xxxx}{2011}]{Zhang11}
+%xxxx (2011) `Reliable packets delivery over segment-based multi-path
+%in wireless ad hoc networks', {\it Pervasive Computing and
+%Applications (ICPCA), 2011 6th International Conference on},
+%pp.300-ï¿½306. \tc{AUTHOR PLEASE SUPPLY LOCATION.}
+
+%\end{thebibliography}
+
+
+%\section*{Appendx}
+%We have proposed the CSD scheme that makes use of multiple bridge
+%nodes within the close neighbourhood of the source and insecure
+%neighbours. These bridge nodes cooperatively help to deliver secret
+%link key information from the source towards the insecure
+%neighbours. In the delivery process, no secret information is
+%disclosed to any node en route. These routers simply forward the
+%encrypted data. Even the bridge nodes only get to know partial
+%information about the secrets that they help to deliver.
+
+\end{document}
+
+%\def\notesname{Note}
+%
+%\theendnotes
+
+%\section*{Query}
+%
+%\tc{AQ1: AUTHOR PLEASE CITE FIGURE 8 IN TEXT.}
+
+\end{document}
